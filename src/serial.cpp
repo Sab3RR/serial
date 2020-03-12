@@ -25,11 +25,25 @@ int main(int ac, char** ar)
     std::string port = "/dev/ttyACM0";
     int device;
     device = open(port.c_str(), O_RDWR );
+    char buffer[1];
 
+    while(true)
+    {
+        int n = read(device, buffer, sizeof buffer);
+        if (n != 0) {
+            if (buffer[0] == '\n')
+                break;
+        }
+        else{
+            write(device, " ", 1);
+            break;
+        }
+
+    }
     while(ros::ok())
     {
         std::string response;
-        char buffer[1];
+
 
         while(true)
         {
